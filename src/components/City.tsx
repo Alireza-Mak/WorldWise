@@ -1,28 +1,38 @@
+import { useParams } from "react-router-dom";
+import { formatDate } from "../utils/reusableFunctions";
 import styles from "./City.module.css";
-
+import useCities from "../hooks/useCities";
+import { useEffect } from "react";
+import BackButton from "./BackButton";
 function City() {
-    // TEMP DATA
-    const currentCity = {
-        cityName: "Lisbon",
-        emoji: "🇵🇹",
-        date: "2027-10-31T15:59:59.138Z",
-        notes: "My favorite city so far!",
-    };
+    const { id } = useParams();
+    const { cities, OnSelectedCityId } = useCities();
+    useEffect(() => {
+        OnSelectedCityId(Number(id));
+    }, [id, OnSelectedCityId]);
 
-    const { cityName, emoji, date, notes } = currentCity;
+    const currentCity = cities.find((city) => city.id == +id!);
+    const { cityName, tag, date, notes, country } = currentCity!;
 
     return (
         <div className={styles.city}>
             <div className={styles.row}>
                 <h6>City name</h6>
+                <h6>{id}</h6>
                 <h3>
-                    <span>{emoji}</span> {cityName}
+                    <img
+                        src={`https://flagcdn.com/16x12/${tag}.png`}
+                        width="16"
+                        height="12"
+                        alt={`${country}`}
+                    />
+                    {cityName}
                 </h3>
             </div>
 
             <div className={styles.row}>
                 <h6>You went to {cityName} on</h6>
-                <p>{formatDate(date || null)}</p>
+                <p>{formatDate(date) || null}</p>
             </div>
 
             {notes && (
@@ -44,7 +54,7 @@ function City() {
             </div>
 
             <div>
-                <ButtonBack />
+                <BackButton />
             </div>
         </div>
     );
