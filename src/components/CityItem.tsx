@@ -6,7 +6,7 @@ import useCities from "../hooks/useCities";
 type Props = { city: CityType };
 
 function CityItem({ city }: Props) {
-    const { currentCityId } = useCities();
+    const { currentCity } = useCities();
     const {
         cityName,
         country,
@@ -20,7 +20,7 @@ function CityItem({ city }: Props) {
         <li>
             <Link
                 to={`${id}?lat=${lat}&lng=${lng}`}
-                className={`${styles.cityItem} ${id == currentCityId && styles["cityItem--active"]}`}
+                className={`${styles.cityItem} ${id == currentCity?.id && styles["cityItem--active"]}`}
             >
                 <img
                     src={`https://flagcdn.com/16x12/${tag}.png`}

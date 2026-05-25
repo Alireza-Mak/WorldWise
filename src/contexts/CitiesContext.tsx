@@ -1,25 +1,27 @@
 import { createContext, useEffect, useState } from "react";
-import type { CitiesType } from "../types/types";
+import type { CitiesType, CityType } from "../types/types";
 type StateType = {
     cities: CitiesType;
     isLoading: boolean;
-    OnSelectedCityId: (id: number) => void;
-    currentCityId: number | null;
+    currentCity: CityType | null;
+    getCity: (id: number) => Promise<void>;
 };
+type Props = { children: React.ReactNode };
+
+const URL = "http://localhost:9000/cities";
 const initialState = {
     cities: [],
     isLoading: false,
-    OnSelectedCityId: () => {},
-    currentCityId: null,
+    currentCity: null,
+    getCity: async () => {},
 };
+
 const CitiesContext = createContext<StateType>(initialState);
 
-type Props = { children: React.ReactNode };
-const URL = "http://localhost:9000/cities";
 const CitiesProvider = ({ children }: Props) => {
     const [cities, setCities] = useState<CitiesType>([]);
+    const [currentCity, setCurrentCity] = useState<CityType | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [currentCityId, setCurrentCityID] = useState<number | null>(null);
 
     useEffect(function () {
         (() => setIsLoading(true))();
@@ -39,14 +41,29 @@ const CitiesProvider = ({ children }: Props) => {
         const id = setTimeout(() => fetchCities(), 500);
         return () => clearTimeout(id);
     }, []);
-    const OnSelectedCityId = (id: number) => {
-        setCurrentCityID(id);
-    };
+
+    async function getCity(id: number) {
+        setIsLoading(true);
+        setTimeout(async () => {
+            try {
+                const res = await fetch(`${URL}/${id}`);
+                if (!res.ok)
+                    throw new Error(`${res.status}: ${res.statusText}`);
+                const data = await res.json();
+                setCurrentCity(data);
+            } catch (error) {
+                alert(error);
+            } finally {
+                setIsLoading(false);
+            }
+        }, 500);
+    }
+
     const state: StateType = {
         cities,
         isLoading,
-        currentCityId,
-        OnSelectedCityId,
+        currentCity,
+        getCity,
     };
     return (
         <CitiesContext.Provider value={state}>
