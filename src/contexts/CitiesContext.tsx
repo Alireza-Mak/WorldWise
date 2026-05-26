@@ -1,10 +1,11 @@
 import { createContext, useEffect, useState } from "react";
-import type { CitiesType, CityType } from "../types/types";
+import type { CitiesType, NewCityType, CityType } from "../types/types";
 type StateType = {
     cities: CitiesType;
     isLoading: boolean;
     currentCity: CityType | null;
-    getCity: (id: number) => Promise<void>;
+    getCity: (id: string) => Promise<void>;
+    addCity: (city: NewCityType) => Promise<void>;
 };
 type Props = { children: React.ReactNode };
 
@@ -14,6 +15,7 @@ const initialState = {
     isLoading: false,
     currentCity: null,
     getCity: async () => {},
+    addCity: async () => {},
 };
 
 const CitiesContext = createContext<StateType>(initialState);
@@ -42,7 +44,8 @@ const CitiesProvider = ({ children }: Props) => {
         return () => clearTimeout(id);
     }, []);
 
-    async function getCity(id: number) {
+    async function getCity(id: string) {
+        console.log(id);
         setIsLoading(true);
         setTimeout(async () => {
             try {
@@ -59,11 +62,33 @@ const CitiesProvider = ({ children }: Props) => {
         }, 500);
     }
 
+    async function addCity(city: NewCityType) {
+        setIsLoading(true);
+        setTimeout(async () => {
+            try {
+                const res = await fetch(URL, {
+                    method: "POST",
+                    body: JSON.stringify(city),
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
+                const data = await res.json();
+                setCities((prevCities) => [...prevCities, data]);
+            } catch (error) {
+                alert(error);
+            } finally {
+                setIsLoading(false);
+            }
+        }, 500);
+    }
+
     const state: StateType = {
         cities,
         isLoading,
         currentCity,
         getCity,
+        addCity,
     };
     return (
         <CitiesContext.Provider value={state}>

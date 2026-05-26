@@ -7,12 +7,13 @@ import {
     useMap,
     useMapEvents,
 } from "react-leaflet";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styles from "./Map.module.css";
 import { useEffect, useState } from "react";
 import useCities from "../hooks/useCities";
 import Button from "./Button";
 import { useGeolocation } from "../hooks/useGeolocation";
+import { useUrlPosition } from "../hooks/useURLPosition";
 
 function ChangeCenter({
     position,
@@ -40,12 +41,10 @@ function DetectClick() {
 }
 
 export default function Map() {
-    const [searchParams] = useSearchParams();
     const [mapPosition, setMapPosition] = useState({ lat: 40, lng: 0 });
-    const {  isLoading, getPosition, position } = useGeolocation();
+    const { isLoading, getPosition, position } = useGeolocation();
+    const { lat: mapLat, lng: mapLng } = useUrlPosition();
     const { cities } = useCities();
-    const mapLat = searchParams.get("lat");
-    const mapLng = searchParams.get("lng");
 
     useEffect(() => {
         function changePosition() {
@@ -95,13 +94,7 @@ export default function Map() {
                         </Popup>
                     </Marker>
                 ))}
-                <ChangeCenter
-                    position={
-                        mapLat && mapLng
-                            ? { lat: +mapLat, lng: +mapLng }
-                            : mapPosition
-                    }
-                />
+                <ChangeCenter position={mapPosition} />
                 <DetectClick />
             </MapContainer>
         </div>

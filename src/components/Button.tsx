@@ -1,7 +1,7 @@
 import styles from "./Button.module.css";
 type Props = {
     children: React.ReactNode;
-    OnBtnClick: (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+    OnBtnClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
     type?: string;
 };
 

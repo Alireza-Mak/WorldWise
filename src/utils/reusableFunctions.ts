@@ -6,10 +6,8 @@ export const formatDate = (date: string): string =>
         weekday: "long",
     }).format(new Date(date));
 
-export function convertToEmoji(countryCode: string) {
-    const codePoints = countryCode
-        .toUpperCase()
-        .split("")
-        .map((char: string, index: number) => 127397 + char.charCodeAt(index));
-    return String.fromCodePoint(...codePoints);
+export function formatDateInput(date: Date) {
+    return new Date(date.toString().split("GMT")[0] + " UTC")
+        .toISOString()
+        .split(".")[0];
 }
