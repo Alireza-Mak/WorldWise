@@ -1,64 +1,77 @@
 {
-    "cities": [
-        {
-            "cityName": "Lisbon",
-            "country": "Portugal",
-            "tag": "pt",
-            "date": "2021-10-31T15:59:59.138Z",
-            "notes": "My favorite city so far!",
-            "position": {
-                "lat": 38.727881642324164,
-                "lng": -9.140900099907554
-            },
-            "id": 73948985
-        },
-        {
-            "cityName": "Madrid",
-            "country": "Spain",
-            "tag": "es",
-            "date": "2024-07-15T08:22:53.976Z",
-            "notes": "",
-            "position": {
-                "lat": 40.46635901755316,
-                "lng": -3.7133789062500004
-            },
-            "id": 17802151
-        },
-        {
-            "cityName": "Berlin",
-            "country": "Germany",
-            "tag": "de",
-            "date": "2025-02-12T09:24:11.863Z",
-            "notes": "Amazing 😃",
-            "position": {
-                "lat": 52.53586782505711,
-                "lng": 13.376933665713324
-            },
-            "id": 9881297
-        },
-        {
-            "cityName": "Faro",
-            "country": "Portugal",
-            "tag": "pt",
-            "date": "2023-10-31T15:59:59.138Z",
-            "notes": "My favorite city so far!",
-            "position": {
-                "lat": 37.0194,
-                "lng": -7.9304
-            },
-            "id": 73985185
-        },
-        {
-            "cityName": "Barcelona",
-            "country": "Spain",
-            "tag": "es",
-            "date": "2022-07-15T08:22:53.976Z",
-            "notes": "",
-            "position": {
-                "lat": 41.38879,
-                "lng": 2.15899
-            },
-            "id": 15269871
-        }
-    ]
+  "cities": [
+    {
+      "cityName": "Lisbon",
+      "country": "Portugal",
+      "tag": "pt",
+      "date": "2021-10-31T15:59:59.138Z",
+      "notes": "My favorite city so far!",
+      "position": {
+        "lat": 38.727881642324164,
+        "lng": -9.140900099907554
+      },
+      "id": "73948985"
+    },
+    {
+      "cityName": "Madrid",
+      "country": "Spain",
+      "tag": "es",
+      "date": "2024-07-15T08:22:53.976Z",
+      "notes": "",
+      "position": {
+        "lat": 40.46635901755316,
+        "lng": -3.7133789062500004
+      },
+      "id": "17802151"
+    },
+    {
+      "cityName": "Berlin",
+      "country": "Germany",
+      "tag": "de",
+      "date": "2025-02-12T09:24:11.863Z",
+      "notes": "Amazing 😃",
+      "position": {
+        "lat": 52.53586782505711,
+        "lng": 13.376933665713324
+      },
+      "id": "9881297"
+    },
+    {
+      "cityName": "Faro",
+      "country": "Portugal",
+      "tag": "pt",
+      "date": "2023-10-31T15:59:59.138Z",
+      "notes": "My favorite city so far!",
+      "position": {
+        "lat": 37.0194,
+        "lng": -7.9304
+      },
+      "id": "73985185"
+    },
+    {
+      "cityName": "Barcelona",
+      "country": "Spain",
+      "tag": "es",
+      "date": "2022-07-15T08:22:53.976Z",
+      "notes": "",
+      "position": {
+        "lat": 41.38879,
+        "lng": 2.15899
+      },
+      "id": "15269871"
+    },
+    {
+      "cityName": "Paris",
+      "country": "France",
+      "date": "2026-06-03T14:27:42",
+      "notes": "test",
+      "position": {
+        "lat": 48.828565527993234,
+        "lng": 2.3510742187500004
+      },
+      "tag": "fr",
+      "id": "gHrgxdmRGKI"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }

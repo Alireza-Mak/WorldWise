@@ -6,7 +6,7 @@ import useCities from "../hooks/useCities";
 type Props = { city: CityType };
 
 function CityItem({ city }: Props) {
-    const { currentCity } = useCities();
+    const { currentCity,deleteCity } = useCities();
     const {
         cityName,
         country,
@@ -16,6 +16,10 @@ function CityItem({ city }: Props) {
         tag,
     } = city;
 
+    function handleDeleteClick(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+        event.preventDefault();
+        deleteCity(id);
+    }
     return (
         <li>
             <Link
@@ -30,7 +34,12 @@ function CityItem({ city }: Props) {
                 />
                 <h3 className={styles.name}>{cityName}</h3>
                 <time className={styles.date}>{formatDate(date)}</time>
-                <button className={styles.deleteBtn}>&times;</button>
+                <button
+                    onClick={handleDeleteClick}
+                    className={styles.deleteBtn}
+                >
+                    &times;
+                </button>
             </Link>
         </li>
     );

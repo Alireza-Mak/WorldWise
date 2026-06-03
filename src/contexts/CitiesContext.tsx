@@ -6,6 +6,7 @@ type StateType = {
     currentCity: CityType | null;
     getCity: (id: string) => Promise<void>;
     addCity: (city: NewCityType) => Promise<void>;
+    deleteCity: (id: string) => Promise<void>;
 };
 type Props = { children: React.ReactNode };
 
@@ -16,6 +17,7 @@ const initialState = {
     currentCity: null,
     getCity: async () => {},
     addCity: async () => {},
+    deleteCity: async () => {},
 };
 
 const CitiesContext = createContext<StateType>(initialState);
@@ -55,7 +57,7 @@ const CitiesProvider = ({ children }: Props) => {
                 const data = await res.json();
                 setCurrentCity(data);
             } catch (error) {
-                alert(error);
+                alert("Error getting the city: " + error);
             } finally {
                 setIsLoading(false);
             }
@@ -76,7 +78,28 @@ const CitiesProvider = ({ children }: Props) => {
                 const data = await res.json();
                 setCities((prevCities) => [...prevCities, data]);
             } catch (error) {
-                alert(error);
+                alert("Error creating new city: " + error);
+            } finally {
+                setIsLoading(false);
+            }
+        }, 500);
+    }
+
+    async function deleteCity(id: string) {
+        setIsLoading(true);
+        setTimeout(async () => {
+            try {
+                await fetch(`${URL}/${id}`, {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
+                setCities((prevCities) => [
+                    ...prevCities.filter((c) => c.id !== id),
+                ]);
+            } catch (error) {
+                alert("Error deleting the city: " + error);
             } finally {
                 setIsLoading(false);
             }
@@ -89,6 +112,7 @@ const CitiesProvider = ({ children }: Props) => {
         currentCity,
         getCity,
         addCity,
+        deleteCity,
     };
     return (
         <CitiesContext.Provider value={state}>
