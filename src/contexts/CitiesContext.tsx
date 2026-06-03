@@ -1,45 +1,74 @@
-import { createContext, useEffect, useState } from "react";
-import type { CitiesType, NewCityType, CityType } from "../types/types";
-type StateType = {
-    cities: CitiesType;
-    isLoading: boolean;
-    currentCity: CityType | null;
-    getCity: (id: string) => Promise<void>;
-    addCity: (city: NewCityType) => Promise<void>;
-    deleteCity: (id: string) => Promise<void>;
-};
-type Props = { children: React.ReactNode };
+import { createContext, useEffect, useReducer } from "react";
+import type { CityType, NewCityType, StateType } from "../types/types";
 
 const URL = "http://localhost:9000/cities";
 const initialState = {
     cities: [],
     isLoading: false,
     currentCity: null,
+    error: "",
     getCity: async () => {},
     addCity: async () => {},
     deleteCity: async () => {},
 };
+type ActionType =
+    | { type: "loading"; payload: boolean }
+    | { type: "rejected"; payload: string }
+    | { type: "cities/loaded"; payload: CityType[] }
+    | { type: "city/loaded"; payload: CityType }
+    | { type: "city/created"; payload: CityType }
+    | { type: "city/deleted"; payload: string };
 
 const CitiesContext = createContext<StateType>(initialState);
 
-const CitiesProvider = ({ children }: Props) => {
-    const [cities, setCities] = useState<CitiesType>([]);
-    const [currentCity, setCurrentCity] = useState<CityType | null>(null);
-    const [isLoading, setIsLoading] = useState<boolean>(false);
+function reducer(state: StateType, action: ActionType): StateType {
+    const { type, payload } = action;
+    switch (type) {
+        case "loading":
+            return { ...state, isLoading: payload };
+        case "rejected":
+            return { ...state, isLoading: false, error: payload };
+        case "cities/loaded":
+            return { ...state, isLoading: false, cities: payload };
+        case "city/loaded":
+            return { ...state, isLoading: false, currentCity: payload };
+        case "city/created":
+            return {
+                ...state,
+                isLoading: false,
+                currentCity: action.payload,
+                cities: [...state.cities, action.payload],
+            };
+        case "city/deleted":
+            return {
+                ...state,
+                isLoading: false,
+                currentCity: null,
+                cities: [...state.cities.filter((c) => c.id !== payload)],
+            };
+        default:
+            throw new Error("Action does not exist");
+    }
+}
+
+const CitiesProvider = ({ children }: { children: React.ReactNode }) => {
+    const [{ cities, currentCity, isLoading, error }, dispatch] = useReducer(
+        reducer,
+        initialState,
+    );
 
     useEffect(function () {
-        (() => setIsLoading(true))();
+        dispatch({ type: "loading", payload: true });
+
         async function fetchCities() {
             try {
                 const res = await fetch(URL);
                 if (!res.ok)
                     throw new Error(`${res.status}: ${res.statusText}`);
                 const data = await res.json();
-                setCities(data);
-            } catch (error) {
-                alert(error);
-            } finally {
-                setIsLoading(false);
+                dispatch({ type: "cities/loaded", payload: data });
+            } catch {
+                dispatch({ type: "rejected", payload: "Error to get cities" });
             }
         }
         const id = setTimeout(() => fetchCities(), 500);
@@ -47,25 +76,29 @@ const CitiesProvider = ({ children }: Props) => {
     }, []);
 
     async function getCity(id: string) {
-        console.log(id);
-        setIsLoading(true);
+        if (id === currentCity?.id) return;
+
+        dispatch({ type: "loading", payload: true });
+
         setTimeout(async () => {
             try {
                 const res = await fetch(`${URL}/${id}`);
                 if (!res.ok)
                     throw new Error(`${res.status}: ${res.statusText}`);
                 const data = await res.json();
-                setCurrentCity(data);
-            } catch (error) {
-                alert("Error getting the city: " + error);
-            } finally {
-                setIsLoading(false);
+                dispatch({ type: "city/loaded", payload: data });
+            } catch {
+                dispatch({
+                    type: "rejected",
+                    payload: "Error to get current city",
+                });
             }
         }, 500);
     }
 
     async function addCity(city: NewCityType) {
-        setIsLoading(true);
+        dispatch({ type: "loading", payload: true });
+
         setTimeout(async () => {
             try {
                 const res = await fetch(URL, {
@@ -76,17 +109,16 @@ const CitiesProvider = ({ children }: Props) => {
                     },
                 });
                 const data = await res.json();
-                setCities((prevCities) => [...prevCities, data]);
-            } catch (error) {
-                alert("Error creating new city: " + error);
-            } finally {
-                setIsLoading(false);
+                dispatch({ type: "city/created", payload: data });
+            } catch {
+                dispatch({ type: "rejected", payload: "Error to add a city" });
             }
         }, 500);
     }
 
     async function deleteCity(id: string) {
-        setIsLoading(true);
+        dispatch({ type: "loading", payload: true });
+        
         setTimeout(async () => {
             try {
                 await fetch(`${URL}/${id}`, {
@@ -95,13 +127,12 @@ const CitiesProvider = ({ children }: Props) => {
                         "Content-Type": "application/json",
                     },
                 });
-                setCities((prevCities) => [
-                    ...prevCities.filter((c) => c.id !== id),
-                ]);
-            } catch (error) {
-                alert("Error deleting the city: " + error);
-            } finally {
-                setIsLoading(false);
+                dispatch({ type: "city/deleted", payload: id });
+            } catch {
+                dispatch({
+                    type: "rejected",
+                    payload: "Error to delete the city",
+                });
             }
         }, 500);
     }
@@ -109,6 +140,7 @@ const CitiesProvider = ({ children }: Props) => {
     const state: StateType = {
         cities,
         isLoading,
+        error,
         currentCity,
         getCity,
         addCity,

@@ -23,4 +23,14 @@ interface NewCityType {
 }
 type CitiesType = CityType[] | [];
 
-export type { CitiesType, CityType, NewCityType };
+type StateType = {
+    cities: CitiesType;
+    isLoading: boolean;
+    error: string;
+    currentCity: CityType | null;
+    getCity: (id: string) => Promise<void>;
+    addCity: (city: NewCityType) => Promise<void>;
+    deleteCity: (id: string) => Promise<void>;
+};
+
+export type { CitiesType, CityType, NewCityType, StateType };

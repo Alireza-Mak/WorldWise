@@ -59,18 +59,6 @@
         "lng": 2.15899
       },
       "id": "15269871"
-    },
-    {
-      "cityName": "Paris",
-      "country": "France",
-      "date": "2026-06-03T14:27:42",
-      "notes": "test",
-      "position": {
-        "lat": 48.828565527993234,
-        "lng": 2.3510742187500004
-      },
-      "tag": "fr",
-      "id": "gHrgxdmRGKI"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
