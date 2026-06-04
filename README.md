@@ -88,17 +88,17 @@ For support, email Info@alirezamak.com.
 
 ## Screenshots
 
-![App Screenshot](https://alirezamak.com/wp-content/uploads/worldwise-1.png)
-![App Screenshot](https://alirezamak.com/wp-content/uploads/worldwise-2.png)
-![App Screenshot](https://alirezamak.com/wp-content/uploads/worldwise-3.png)
-![App Screenshot](https://alirezamak.com/wp-content/uploads/worldwise-4.png)
-![App Screenshot](https://alirezamak.com/wp-content/uploads/worldwise-5.png)
-![App Screenshot](https://alirezamak.com/wp-content/uploads/worldwise-6.png)
+![App Screenshot](https://alirezamak.com/wp-content/uploads/worldwise-p1.png)
+![App Screenshot](https://alirezamak.com/wp-content/uploads/worldwise-p2.png)
+![App Screenshot](https://alirezamak.com/wp-content/uploads/worldwise-p3.png)
+![App Screenshot](https://alirezamak.com/wp-content/uploads/worldwise-p4.png)
+![App Screenshot](https://alirezamak.com/wp-content/uploads/worldwise-p5.png)
+![App Screenshot](https://alirezamak.com/wp-content/uploads/worldwise-p6.png)
 
 ## Related
 
 Here is related projects:
 
-[Drag and Drop - intermediate](https://github.com/Alireza-Mak/reusable-components)
+- [Drag and Drop - intermediate](https://github.com/Alireza-Mak/reusable-components)
 
-[React Typescript Interface](https://github.com/Alireza-Mak/react-interface)
+- [React Typescript Interface](https://github.com/Alireza-Mak/react-interface)
