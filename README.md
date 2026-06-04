@@ -99,5 +99,5 @@ For support, email Info@alirezamak.com.
 
 Here is related projects:
 
-|[Drag and Drop - intermediate](https://github.com/Alireza-Mak/reusable-components)
-|[React Typescript Interface](https://github.com/Alireza-Mak/react-interface)
+![Drag and Drop - intermediate](https://github.com/Alireza-Mak/reusable-components)
+![React Typescript Interface](https://github.com/Alireza-Mak/react-interface)
