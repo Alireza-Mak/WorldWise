@@ -1,4 +1,5 @@
 import useCities from "../hooks/useCities";
+import usePageTitle from "../hooks/usePageTitle";
 import type { CitiesType, CityType } from "../types/types";
 import CountryItem from "./CountryItem";
 import styles from "./CountryList.module.css";
@@ -6,6 +7,7 @@ import Message from "./Message";
 import Spinner from "./Spinner";
 
 export default function CountryList() {
+    usePageTitle("Countries");
     const { cities, isLoading } = useCities();
     const countries = cities.reduce((data, city) => {
         if (!data.find((el) => el.country === city.country))

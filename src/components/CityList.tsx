@@ -1,4 +1,5 @@
 import useCities from "../hooks/useCities";
+import usePageTitle from "../hooks/usePageTitle";
 import CityItem from "./CityItem";
 import styles from "./CityList.module.css";
 import Message from "./Message";
@@ -6,6 +7,7 @@ import Spinner from "./Spinner";
 
 
 export default function CityList() {
+    usePageTitle("Cities");
     const {cities,isLoading} = useCities();
     if (isLoading) return <Spinner />;
     if (cities.length <= 0)

@@ -33,4 +33,24 @@ type StateType = {
     deleteCity: (id: string) => Promise<void>;
 };
 
-export type { CitiesType, CityType, NewCityType, StateType };
+type UserType = {
+    name: string;
+    avatar: string;
+    email: string;
+    password: string;
+};
+interface AuthType {
+    user: UserType | null;
+    isAuthenticated: boolean;
+    login: (username: string, password: string) => void;
+    logout: () => void;
+}
+
+export type {
+    CitiesType,
+    CityType,
+    NewCityType,
+    StateType,
+    AuthType,
+    UserType,
+};

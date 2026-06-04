@@ -1,7 +1,11 @@
+
 import PageNav from "../components/PageNav";
+import usePageTitle from "../hooks/usePageTitle";
 import styles from "./Product.module.css";
 
+
 export default function Product() {
+    usePageTitle("Product");
     return (
         <main className={styles.product}>
             <PageNav />
