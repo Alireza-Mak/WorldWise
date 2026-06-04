@@ -55,7 +55,7 @@ The login page comes with a **pre-filled demo account** — just click **Login**
 Install and run WorldWise locally:
 
 ```bash
-  git clone git@github.com:Alireza-Mak/WorldWise.git
+  git clone https://github.com/Alireza-Mak/WorldWise.git
 ```
 
 ```bash
@@ -99,5 +99,5 @@ For support, email Info@alirezamak.com.
 
 Here is related projects:
 
-[Drag and Drop - intermediate](https://github.com/Alireza-Mak/reusable-components)
-[React Typescript Interface](https://github.com/Alireza-Mak/react-interface)
+|[Drag and Drop - intermediate](https://github.com/Alireza-Mak/reusable-components)
+|[React Typescript Interface](https://github.com/Alireza-Mak/react-interface)
