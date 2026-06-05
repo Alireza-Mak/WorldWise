@@ -1,4 +1,4 @@
-import { createContext, useEffect, useReducer } from "react";
+import { createContext, useEffect, useReducer, useCallback } from "react";
 import type { CityType, NewCityType, StateType } from "../types/types";
 
 const URL = "http://localhost:9000/cities";
@@ -75,26 +75,29 @@ const CitiesProvider = ({ children }: { children: React.ReactNode }) => {
         return () => clearTimeout(id);
     }, []);
 
-    async function getCity(id: string) {
-        if (id === currentCity?.id) return;
+    const getCity = useCallback(
+        async function getCity(id: string) {
+            if (id === currentCity?.id) return;
 
-        dispatch({ type: "loading", payload: true });
+            dispatch({ type: "loading", payload: true });
 
-        setTimeout(async () => {
-            try {
-                const res = await fetch(`${URL}/${id}`);
-                if (!res.ok)
-                    throw new Error(`${res.status}: ${res.statusText}`);
-                const data = await res.json();
-                dispatch({ type: "city/loaded", payload: data });
-            } catch {
-                dispatch({
-                    type: "rejected",
-                    payload: "Error to get current city",
-                });
-            }
-        }, 500);
-    }
+            setTimeout(async () => {
+                try {
+                    const res = await fetch(`${URL}/${id}`);
+                    if (!res.ok)
+                        throw new Error(`${res.status}: ${res.statusText}`);
+                    const data = await res.json();
+                    dispatch({ type: "city/loaded", payload: data });
+                } catch {
+                    dispatch({
+                        type: "rejected",
+                        payload: "Error to get current city",
+                    });
+                }
+            }, 500);
+        },
+        [currentCity?.id],
+    );
 
     async function addCity(city: NewCityType) {
         dispatch({ type: "loading", payload: true });
@@ -118,7 +121,7 @@ const CitiesProvider = ({ children }: { children: React.ReactNode }) => {
 
     async function deleteCity(id: string) {
         dispatch({ type: "loading", payload: true });
-        
+
         setTimeout(async () => {
             try {
                 await fetch(`${URL}/${id}`, {
